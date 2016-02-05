@@ -114,7 +114,13 @@ void SerialCommand::readSerial()
 			bufPos=0;           // Reset to start of buffer
 			token = strtok_r(buffer,delim,&last);   // Search for command at start of buffer
 			if (token == NULL) return; 
-			matched=false; 
+			matched=false;
+			char* separator = strchr(token, ':');
+    		if (separator != 0) {
+        		*separator = 0;
+        		++separator;
+        		token = strcpy(token, separator);
+        	}
 			for (i=0; i<numCommand; i++) {
 				#ifdef SERIALCOMMANDDEBUG
 				Serial.print("Comparing ["); 
